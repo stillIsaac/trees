@@ -43,7 +43,7 @@ int main( int argc, char* argv[] )
   std::vector<int> heap;
   std::clock_t inicioLecturaHeap = std::clock( );
   bool elHeap = leerHeap(heap, argv);
-
+    std::clock_t finLecturaHeap = std::clock( );
   // Declarar arboles a usar
   TSet miArbolRN; // arbol rojinegro
   // TODO #3: arbol AVL 
@@ -83,7 +83,15 @@ int main( int argc, char* argv[] )
      << "\" para llenar el arbol AVL."
      << std::endl;
   
-
+  if(elHeap) {
+    std::cout << "El tiempo de llenado del HEAP = " << (finLecturaHeap - inicioLecturaHeap)/double( CLOCKS_PER_SEC )  << "segs." << std::endl;
+  }
+  else {
+    std::cout
+     << "Error al leer \"" << argv[ 1 ]
+     << "\" para llenar el arbol Heap."
+     << std::endl;
+  }
   // Obtener el recorrido en inorden del arbol AVL
   TList inordenAVL;
   // TODO #6: llamar funcion que genera el recorrido en inorden
@@ -190,14 +198,13 @@ bool leerHeap(std::vector<int> heap, char* argv[]) {
               }
           }
       }
-      std::clock_t finLecturaHeap = std::clock( );
       archivo.close();
 
       // Imprime los elementos del heap (en orden ascendente)
-      std::cout << "Elementos del heap:" << std::endl;
+     /* std::cout << "Elementos del heap:" << std::endl;
       for (std::vector<int>::iterator it = heap.begin(); it != heap.end(); ++it) {
           std::cout << *it << std::endl;
-      }
+      } */
   } 
   else {
 
