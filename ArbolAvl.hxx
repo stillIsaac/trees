@@ -185,7 +185,7 @@ NodoAvl<T>* ArbolAvl<T>::insertar(NodoAvl<T>* nodo, NodoAvl<T>* nodoNuevo) {
     if(nodo == NULL) {
 
            nodo = nodoNuevo;
-       // std::cout << "Valor insertado: "  << nodo->dato<< std::endl;
+    //    std::cout << "Valor insertado: "  << nodo->dato<< std::endl;
         return nodo;
     }
 
@@ -260,7 +260,7 @@ NodoAvl<T>* ArbolAvl<T>::eliminar(NodoAvl<T>* nodo, T val) {
 
     else if( val < nodo->dato) {
 
-   //     std::cout << "quiubo el valor es " << nodo->dato << std::endl;
+      //  std::cout << "quiubo el valor es " << nodo->dato << std::endl;
         nodo->hijoIzq = eliminar(nodo->hijoIzq, val);
       //  std::cout << "Aqui se muere " << nodo->dato << std::endl;
     }

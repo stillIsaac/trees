@@ -22,7 +22,7 @@ template< class TArbol >
 bool LeerArbol( TArbol& arbol, const std::string& nomArch );
 template <class T> 
 bool leerAvl(ArbolAvl<T> elArbol, const std::string& nomArch);
-
+bool leerHeap(std::vector<int> heap, char* argv[]);
 // -------------------------------------------------------------------------
 int main( int argc, char* argv[] )
 {
@@ -37,48 +37,12 @@ int main( int argc, char* argv[] )
   // Crear un vector vacío para almacenar los datos del archivo
   std::vector<TSet> datosHeap;
   // Llenar el montículo y calcular el tiempo empleado  
-  
-  std::ifstream archivo(argv[1]);
-  std::string linea;
+ 
 
   // Crea un vector para almacenar los elementos del heap
   std::vector<int> heap;
   std::clock_t inicioLecturaHeap = std::clock( );
-  if (archivo.is_open()) {
-      while (std::getline(archivo, linea)) {
-          std::istringstream ss(linea);
-          std::string operacion;
-          int valor;
-
-          // Lee la operación y el valor del nodo de la línea
-          ss >> operacion >> valor;
-
-          // Inserta o elimina el valor del nodo en el vector según la operación
-          if (operacion == "add") {
-              heap.push_back(valor);
-              std::push_heap(heap.begin(), heap.end(), std::greater<int>());
-          } else if (operacion == "del") {
-              // Busca el valor en el vector y lo elimina
-              std::vector<int>::iterator it = std::find(heap.begin(), heap.end(), valor);
-              if (it != heap.end()) {
-                  std::iter_swap(it, heap.end() - 1);
-                  heap.pop_back();
-                  std::make_heap(heap.begin(), heap.end(), std::greater<int>());
-              }
-          }
-      }
-      std::clock_t finLecturaHeap = std::clock( );
-      archivo.close();
-
-      // Imprime los elementos del heap (en orden ascendente)
-      std::cout << "Elementos del heap:" << std::endl;
-      for (std::vector<int>::iterator it = heap.begin(); it != heap.end(); ++it) {
-          std::cout << *it << std::endl;
-      }
-  } else {
-      std::cerr << "No se pudo abrir el archivo." << std::endl;
-      std::clock_t finLecturaHeap = std::clock( );
-  }
+  bool elHeap = leerHeap(heap, argv);
 
   // Declarar arboles a usar
   TSet miArbolRN; // arbol rojinegro
@@ -196,4 +160,51 @@ bool leerAvl(ArbolAvl<T> elArbol, const std::string& nomArch) {
   return( true );
 }
 
+
+bool leerHeap(std::vector<int> heap, char* argv[]) {
+   
+  std::ifstream archivo(argv[1]);
+  std::string linea;
+
+  if (archivo.is_open()) {
+
+      while (std::getline(archivo, linea)) {
+          std::istringstream ss(linea);
+          std::string operacion;
+          int valor;
+
+          // Lee la operación y el valor del nodo de la línea
+          ss >> operacion >> valor;
+
+          // Inserta o elimina el valor del nodo en el vector según la operación
+          if (operacion == "add") {
+              heap.push_back(valor);
+              std::push_heap(heap.begin(), heap.end(), std::greater<int>());
+          } else if (operacion == "del") {
+              // Busca el valor en el vector y lo elimina
+              std::vector<int>::iterator it = std::find(heap.begin(), heap.end(), valor);
+              if (it != heap.end()) {
+                  std::iter_swap(it, heap.end() - 1);
+                  heap.pop_back();
+                  std::make_heap(heap.begin(), heap.end(), std::greater<int>());
+              }
+          }
+      }
+      std::clock_t finLecturaHeap = std::clock( );
+      archivo.close();
+
+      // Imprime los elementos del heap (en orden ascendente)
+      std::cout << "Elementos del heap:" << std::endl;
+      for (std::vector<int>::iterator it = heap.begin(); it != heap.end(); ++it) {
+          std::cout << *it << std::endl;
+      }
+  } 
+  else {
+
+      std::cerr << "No se pudo abrir el archivo." << std::endl;
+      std::clock_t finLecturaHeap = std::clock( );
+  }
+
+  return( true );
+}
 // eof - taller_3_ordenamiento_busqueda.cxx
