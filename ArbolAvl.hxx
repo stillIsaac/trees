@@ -1,7 +1,9 @@
 #include "ArbolAvl.h"
 #include <queue>
 #include <list>
+#include <stack>
 #include "NodoAvl.h"
+#include <iterator>
 #define SPACE 10
 template < class T >
 ArbolAvl<T>::ArbolAvl() {
@@ -366,20 +368,31 @@ void ArbolAvl<T>::imprimirArbol(NodoAvl<T> * nodo, int espacio){
 
 }
 
-
+//Fuente: ChatGPT
 template <class T>
-void ArbolAvl<T>::listaInOrden(NodoAvl<T> * root, std::list<T> lista) {
+std::list<T> ArbolAvl<T>::listaInOrden(NodoAvl<T> * root) {
+   
+    std::list<T> result;
+    std::stack<NodoAvl<T>*> nodes;
+    NodoAvl<T>* current = root;
 
-    if(root == NULL) {
+    while (current != NULL || !nodes.empty()) {
+        while (current != NULL) {
+            nodes.push(current);
+            current = current->hijoIzq;
+        }
 
-        return;
+        current = nodes.top();
+        nodes.pop();
+        result.push_back(current->dato);
+
+        current = current->hijoDer;
     }
+/*
+    typename std::list<T>::iterator it = result.begin();
+    for(; it != result.end(); it++) {
+        std::cout << *it << std::endl;
+    }*/
 
-    this->inOrden(root->hijoIzq);
-    std::cout << "el dato: " << root->dato << std::endl;
-    lista.push_back(root->dato);
-
-    this->inOrden(root->hijoDer);
-
-
+    return result;
 }

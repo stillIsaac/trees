@@ -26,7 +26,7 @@ class ArbolAvl {
         void posOrden(NodoAvl<T> * root);
         void inOrden();
         void inOrden(NodoAvl <T> *nodo);
-        void listaInOrden(NodoAvl<T> * root, std::list<T> lista);
+        std::list<T> listaInOrden(NodoAvl<T> * root);
         void nivelOrden();
         void imprimirArbol(NodoAvl<T> * nodo, int espacio);
 

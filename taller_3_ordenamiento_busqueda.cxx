@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
-
+#include <stack>
 #include <list>
 #include <set>
 // TODO #1: incluir cabecera arbol AV
@@ -23,6 +23,7 @@ bool LeerArbol( TArbol& arbol, const std::string& nomArch );
 template <class T> 
 bool leerAvl(ArbolAvl<T> elArbol, const std::string& nomArch);
 bool leerHeap(std::vector<int> heap, char* argv[]);
+std::list<std::string> listaInOrden(ArbolAvl<std::string> elArbol, const std::string& nomArch); 
 // -------------------------------------------------------------------------
 int main( int argc, char* argv[] )
 {
@@ -95,9 +96,9 @@ int main( int argc, char* argv[] )
   // Obtener el recorrido en inorden del arbol AVL
   TList inordenAVL;
   // TODO #6: llamar funcion que genera el recorrido en inorden
-  miArbolAVL.listaInOrden( miArbolAVL.raiz,inordenAVL );
-  std::cout << "Tam avl" << inordenAVL.size() << "Tam rn" << miArbolRN.size() << std::endl;
-  if( inordenAVL.size( ) != miArbolRN.size( ) )
+  inordenAVL = listaInOrden(miArbolAVL, argv[ 1 ]);
+
+  if( inordenAVL.size( ) != miArbolRN.size( ) != heap.size() )
   {
     std::cout << "Cantidad de elementos en los arboles no coinciden." << std::endl;
     return( -1 );
@@ -164,7 +165,6 @@ bool leerAvl(ArbolAvl<T> elArbol, const std::string& nomArch) {
     }
 
   } // elihw
-  entrada.close( );
   return( true );
 }
 
@@ -214,4 +214,39 @@ bool leerHeap(std::vector<int> heap, char* argv[]) {
 
   return( true );
 }
+
+
+
+std::list<std::string> listaInOrden(ArbolAvl<std::string> elArbol, const std::string& nomArch) {
+
+  std::list<std::string> laLista;
+  std::ifstream entrada( nomArch.c_str( ) );
+  if( !entrada )
+    return laLista;
+  while( !entrada.eof( ) )
+  {
+
+    std::string codigo, valor;
+    entrada >> codigo >> valor;
+   // std::cout << "El valor: "<< valor << std::endl; 
+    if( codigo == "add" ) {
+
+      NodoAvl<std::string> *nodoNuevo = new NodoAvl<std::string>();
+      nodoNuevo->dato = valor;
+      elArbol.raiz = elArbol.insertar( elArbol.raiz, nodoNuevo);  // El arbol debe proveer el metodo "insert"
+    }
+    else if( codigo == "del" ) {
+     // std::cout << "El valor2: "<< valor << std::endl; 
+      elArbol.raiz =  elArbol.eliminar( elArbol.raiz, valor );   // El arbol debo proveer el metodo "erase"
+    }
+
+  } // elihw
+  
+ 
+  laLista = elArbol.listaInOrden(elArbol.raiz);
+  entrada.close( );
+  return laLista;
+}
+
+
 // eof - taller_3_ordenamiento_busqueda.cxx
