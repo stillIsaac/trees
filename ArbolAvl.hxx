@@ -300,8 +300,7 @@ NodoAvl<T>* ArbolAvl<T>::eliminar(NodoAvl<T>* nodo, T val) {
 
     int fb = this->factorDeBalance(nodo);
 
-    //Izquierda izquierda desbalance o rotar a la derecha
-  //  std::cout << "aqui todo bien con nodo" << nodo->dato << std::endl;
+    
     if(fb == 2 && (this->factorDeBalance(nodo->hijoIzq) >= 0)) {
 
         return this->rotacionDerecha(nodo);
