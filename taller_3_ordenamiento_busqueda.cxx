@@ -8,14 +8,17 @@
 #include <stack>
 #include <list>
 #include <set>
+#include <string>
 // TODO #1: incluir cabecera arbol AV
 #include "ArbolAvl.h"
+#include "Heap.h"
 
 // -------------------------------------------------------------------------
 typedef std::list< std::string > TList;
 typedef std::set< std::string >  TSet;
 // TODO #2: definir arbol AVL de tipo std::string
  typedef ArbolAvl< std::string > TAVL;
+ typedef Heap <int> THeap ;
 
 // -------------------------------------------------------------------------
 template< class TArbol >
@@ -41,9 +44,10 @@ int main( int argc, char* argv[] )
  
 
   // Crea un vector para almacenar los elementos del heap
-  std::vector<int> heap;
+  
+  THeap heap;
   std::clock_t inicioLecturaHeap = std::clock( );
-  bool elHeap = leerHeap(heap, argv);
+  bool elHeap = LeerArbol(heap, argv[ 1 ]);
     std::clock_t finLecturaHeap = std::clock( );
   // Declarar arboles a usar
   TSet miArbolRN; // arbol rojinegro
@@ -97,21 +101,34 @@ int main( int argc, char* argv[] )
   TList inordenAVL;
   // TODO #6: llamar funcion que genera el recorrido en inorden
   inordenAVL = listaInOrden(miArbolAVL, argv[ 1 ]);
-
-  if( inordenAVL.size( ) != miArbolRN.size( ) != heap.size() )
+  std::vector<int> inOrdenHeap = heap.getSort();
+  
+  if( (inordenAVL.size( ) != miArbolRN.size( )))
   {
+
     std::cout << "Cantidad de elementos en los arboles no coinciden." << std::endl;
     return( -1 );
-
   } // fi
+
+  if( (inordenAVL.size( ) != inOrdenHeap.size())) 
+  {
+
+    std::cout << "Cantidad de elementos en los arboles no coinciden." << std::endl;
+    return( -1 );
+  } // fi
+
 
   // Comparar los arboles
   TSet::const_iterator rnIt = miArbolRN.begin( );
   TList::const_iterator avlIt = inordenAVL.begin( );
+  std::vector<int>::iterator heapIt = inOrdenHeap.begin();
   bool iguales = true;
   for( ; rnIt != miArbolRN.end( ); rnIt++, avlIt++ )
     iguales &= ( *rnIt == *avlIt );
 
+  for( ; rnIt != miArbolRN.end( ); rnIt++, heapIt++ )
+    iguales &= ( stoi(*rnIt) == *heapIt );
+  
   // Informar si los arboles coinciden o no
   std::cout << "Los arboles ";
   if( !iguales )
@@ -141,6 +158,9 @@ bool LeerArbol( TArbol& arbol, const std::string& nomArch )
   entrada.close( );
   return( true );
 }
+
+
+
 template <class T> 
 bool leerAvl(ArbolAvl<T> elArbol, const std::string& nomArch) {
 
@@ -169,51 +189,6 @@ bool leerAvl(ArbolAvl<T> elArbol, const std::string& nomArch) {
 }
 
 
-bool leerHeap(std::vector<int> heap, char* argv[]) {
-   
-  std::ifstream archivo(argv[1]);
-  std::string linea;
-
-  if (archivo.is_open()) {
-
-      while (std::getline(archivo, linea)) {
-          std::istringstream ss(linea);
-          std::string operacion;
-          int valor;
-
-          // Lee la operación y el valor del nodo de la línea
-          ss >> operacion >> valor;
-
-          // Inserta o elimina el valor del nodo en el vector según la operación
-          if (operacion == "add") {
-              heap.push_back(valor);
-              std::push_heap(heap.begin(), heap.end(), std::greater<int>());
-          } else if (operacion == "del") {
-              // Busca el valor en el vector y lo elimina
-              std::vector<int>::iterator it = std::find(heap.begin(), heap.end(), valor);
-              if (it != heap.end()) {
-                  std::iter_swap(it, heap.end() - 1);
-                  heap.pop_back();
-                  std::make_heap(heap.begin(), heap.end(), std::greater<int>());
-              }
-          }
-      }
-      archivo.close();
-
-      // Imprime los elementos del heap (en orden ascendente)
-     /* std::cout << "Elementos del heap:" << std::endl;
-      for (std::vector<int>::iterator it = heap.begin(); it != heap.end(); ++it) {
-          std::cout << *it << std::endl;
-      } */
-  } 
-  else {
-
-      std::cerr << "No se pudo abrir el archivo." << std::endl;
-      std::clock_t finLecturaHeap = std::clock( );
-  }
-
-  return( true );
-}
 
 
 

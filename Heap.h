@@ -12,11 +12,13 @@ private:
 public:
     Heap();
 
-    void insert(const T& value);
+    void insert(std::string value);
     void removeTop();
-    const T& top() const;
-    bool isEmpty() const;
-    size_t size() const;
+    T top() ;
+    bool isEmpty() ;
+    int size() ;
+    std::vector<T> getSort();
+    void erase(std::string valor);
 };
 
 #include "Heap.hxx"
