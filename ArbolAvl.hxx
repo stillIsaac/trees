@@ -132,7 +132,7 @@ int ArbolAvl<T>::factorDeBalance(NodoAvl<T> * nodo) {
     return altura(nodo->hijoIzq) - altura(nodo->hijoDer); 
 }
 
-
+//Fuente: https://simplesnippets.tech/what-is-avl-tree-data-structure-all-avl-operations-with-full-code/
 template < class T >
 NodoAvl<T>* ArbolAvl<T>::rotacionDerecha(NodoAvl<T> * y) {
   //  std::cout << "rotar derecha" <<std::endl;

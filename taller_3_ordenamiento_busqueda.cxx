@@ -37,14 +37,6 @@ int main( int argc, char* argv[] )
 
   } // fi
 
-  //Heap
-  // Crear un vector vacío para almacenar los datos del archivo
-  std::vector<TSet> datosHeap;
-  // Llenar el montículo y calcular el tiempo empleado  
- 
-
-  // Crea un vector para almacenar los elementos del heap
-  
   THeap heap;
   std::clock_t inicioLecturaHeap = std::clock( );
   bool elHeap = LeerArbol(heap, argv[ 1 ]);
@@ -108,15 +100,14 @@ int main( int argc, char* argv[] )
 
     std::cout << "Cantidad de elementos en los arboles no coinciden." << std::endl;
     return( -1 );
-  } // fi
+  } 
 
   if( (inordenAVL.size( ) != inOrdenHeap.size())) 
   {
 
     std::cout << "Cantidad de elementos en los arboles no coinciden." << std::endl;
     return( -1 );
-  } // fi
-
+  } 
 
   // Comparar los arboles
   TSet::const_iterator rnIt = miArbolRN.begin( );
