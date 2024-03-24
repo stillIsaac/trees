@@ -65,7 +65,7 @@ int main( int argc, char* argv[] )
   // Llenar arbol AVL y calcular el tiempo empleado
   std::clock_t inicioLecturaAVL = std::clock( );
   // TODO #4: usar el archivo para llenar el arbol AVL 
-  bool lecturaAVL = leerAvl( miArbolAVL, argv[ 1 ] );
+  bool lecturaAVL = LeerArbol( miArbolAVL, argv[ 1 ] );
   std::clock_t finLecturaAVL = std::clock( );
   double tiempoLecturaAVL = ( finLecturaAVL - inicioLecturaAVL ) / double( CLOCKS_PER_SEC );
   // TODO #5: informar tiempo de llenado del arbol AVL
@@ -149,39 +149,6 @@ bool LeerArbol( TArbol& arbol, const std::string& nomArch )
   entrada.close( );
   return( true );
 }
-
-
-
-template <class T> 
-bool leerAvl(ArbolAvl<T> elArbol, const std::string& nomArch) {
-
-  std::ifstream entrada( nomArch.c_str( ) );
-  if( !entrada )
-    return( false );
-  while( !entrada.eof( ) )
-  {
-
-    std::string codigo, valor;
-    entrada >> codigo >> valor;
-   // std::cout << "El valor: "<< valor << std::endl; 
-    if( codigo == "add" ) {
-
-      NodoAvl<T> *nodoNuevo = new NodoAvl<T>();
-      nodoNuevo->dato = valor;
-      elArbol.raiz = elArbol.insertar( elArbol.raiz, nodoNuevo);  // El arbol debe proveer el metodo "insert"
-    }
-    else if( codigo == "del" ) {
-     // std::cout << "El valor2: "<< valor << std::endl; 
-      elArbol.raiz =  elArbol.eliminar( elArbol.raiz, valor );   // El arbol debo proveer el metodo "erase"
-    }
-
-  } // elihw
-  return( true );
-}
-
-
-
-
 
 std::list<std::string> listaInOrden(ArbolAvl<std::string> elArbol, const std::string& nomArch) {
 

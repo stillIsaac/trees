@@ -16,8 +16,9 @@ class ArbolAvl {
         int tamano();
         NodoAvl<T>* rotacionDerecha(NodoAvl<T> * nodo);
         NodoAvl<T>* rotacionIzquierda(NodoAvl<T> * nodo);
-        void insertar(T val);
+        void insert(T val);
         NodoAvl<T> * insertar(NodoAvl<T>* nodo, NodoAvl<T>* nodoNuevo);
+        void erase(T val);
         NodoAvl<T> * eliminar(NodoAvl<T> *nodo, T val);
         NodoAvl<T> * minValue(NodoAvl<T> *nodo);
         bool buscar(T val);

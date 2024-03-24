@@ -162,22 +162,11 @@ NodoAvl<T>* ArbolAvl<T>::rotacionIzquierda(NodoAvl<T> * x) {
 }
 
 template < class T >
-void ArbolAvl<T>::insertar(T val)  {
+void ArbolAvl<T>::insert(T val)  {
 
-    if(this->esVacio()) {
-
-        NodoAvl<T> * nodo = new NodoAvl<T>;
-        nodo->dato = val;
-        this->raiz = nodo;
-    }
-
-    else {
-
-
-        NodoAvl<T> * nodo = new NodoAvl<T>;
-        nodo->dato = val;
-        this->insertar(this->raiz, nodo);
-    }
+    NodoAvl<T> *nodoNuevo = new NodoAvl<T>();
+    nodoNuevo->dato = val;
+    this->raiz = this->insertar( this->raiz, nodoNuevo); 
 }
 
 
@@ -328,6 +317,13 @@ NodoAvl<T>* ArbolAvl<T>::eliminar(NodoAvl<T>* nodo, T val) {
     }
 
     return nodo;
+}
+
+
+template <class T>
+void ArbolAvl<T>::erase(T val) {
+
+    this->raiz = this->eliminar(this->raiz, val);
 }
 
 template <class T>
